@@ -12,13 +12,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/component/ui/sheet";
 import { LinkIcon, LogOut, MenuIcon } from "lucide-react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { NavbarContext } from "@/context/NavbarContext";
 import NavLink from "./NavLink";
-import { NavbarContext } from "./NavbarContext";
 
 const Navbar = () => {
   const { links } = useContext(NavbarContext);
   const navigate = useNavigate();
-  const user = true;
+  const user = false;
 
   return (
     <header className="bg-background fixed top-0 left-0 w-full z-50 border-b">
@@ -62,7 +62,8 @@ const Navbar = () => {
                 <DropdownMenuLabel>Arnav Aggarwal</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <LinkIcon className="mr-2 h-4 w-4"/>My Links
+                  <LinkIcon className="mr-2 h-4 w-4" />
+                  My Links
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-rose-500 hover:bg-rose-50 transition ease-in-out duration-300 "
