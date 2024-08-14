@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/component/ui/avatar";
 import { Button } from "@/component/ui/button";
 import {
   DropdownMenu,
@@ -9,17 +8,18 @@ import {
   DropdownMenuTrigger,
 } from "@/component/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/component/ui/sheet";
+import { NavbarContext } from "@/context/NavbarContext";
 import { LinkIcon, LogOut, MenuIcon } from "lucide-react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { NavbarContext } from "@/context/NavbarContext";
 import NavLink from "./NavLink";
+import { UrlState } from "@/context/UrlContext";
+import UserAvatar from "./UserAvatar";
 
 const Navbar = () => {
   const { links } = useContext(NavbarContext);
+  const { user } = UrlState();
   const navigate = useNavigate();
-  const user = false;
-
   return (
     <header className="bg-background fixed top-0 left-0 w-full z-50 border-b">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -29,7 +29,7 @@ const Navbar = () => {
         </Link>
 
         {links.length > 0 && (
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-2 md:flex">
             {links.map((link) => (
               <NavLink key={link.label} href={link.href}>
                 {link.label}
@@ -50,16 +50,12 @@ const Navbar = () => {
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                <UserAvatar user={user} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                style={{ overflowY: "hidden" }}
-                className="min-w-[12rem]"
-              >
-                <DropdownMenuLabel>Arnav Aggarwal</DropdownMenuLabel>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  {user?.user_metadata?.name}
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LinkIcon className="mr-2 h-4 w-4" />
@@ -90,7 +86,7 @@ const Navbar = () => {
                     <Link
                       to="/"
                       className="flex items-center gap-2"
-                      prefetch={false}
+                      prefetch="false"
                     >
                       <LinkIcon className="h-6 w-6" />
                       <span className="text-lg font-semibold">LynQr</span>

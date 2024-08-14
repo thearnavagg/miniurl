@@ -6,6 +6,8 @@ import LandingPage from "./pages/LandingPage";
 import Link from "./pages/Link";
 import RedirectLink from "./pages/RedirectLink";
 import UrlProvider from "./context/UrlContext";
+import ProtectedRouter from "./component/ProtectedRouter";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +22,19 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
+        path: "/dashboard",
+        element:
+        <ProtectedRouter>
+          <Dashboard/>
+        </ProtectedRouter>
+      },
+      {
         path: "/link/:id",
-        element: <Link />,
+        element: (
+          <ProtectedRouter>
+            <Link />,
+          </ProtectedRouter>
+        ),
       },
       {
         path: ":id",

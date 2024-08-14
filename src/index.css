@@ -60,6 +60,10 @@
   .fixed-height-container {
   min-height: 470px;
 }
+.dropdown-trigger:focus {
+  outline: none;
+  border: none;
+}
 }
 
 @layer base {

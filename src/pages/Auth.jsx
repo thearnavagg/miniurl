@@ -1,11 +1,22 @@
-import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/component/ui/tabs";
 import Signin from "@/component/Signin";
 import Signup from "@/component/Signup";
+import { UrlState } from "@/context/UrlContext";
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
+  const longLink = searchParams.get("createNew");
+  const navigate = useNavigate();
+  const { isAuthenticated, loading } = UrlState();
+
+  useEffect(() => {
+    if (isAuthenticated && !loading){
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+    }
+  },[isAuthenticated,loading])
+
   return (
     <div className="flex min-h-screen justify-center items-center lg:items-start bg-muted px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-5">
@@ -28,7 +39,7 @@ const Auth = () => {
               <Link
                 to="#"
                 className="font-medium text-primary hover:text-primary/90"
-                prefetch={false}
+                prefetch="false"
               >
                 sign up for a new account
               </Link>

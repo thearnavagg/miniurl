@@ -7,6 +7,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import contactImage from "../assets/ContactUs.jpg";
 import animation from "../assets/animation.json";
+
 const LandingPage = () => {
   const animationContainer = useRef(null);
   const { setLinks } = useContext(NavbarContext);

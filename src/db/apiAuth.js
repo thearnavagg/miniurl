@@ -1,6 +1,5 @@
 import supabase, { supabaseUrl } from "./supabase";
-
-export async function login({ email, password }) {
+export async function signin({ email, password }) {
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -15,27 +14,33 @@ export async function signup({ name, email, password, profile_pic }) {
     const fileName = `dp-${name.split(" ").join("-")}-${Math.random()}`;
 
     const { error: storageError } = await supabase.storage
-        .from("profile_pic")
+        .from("profile-pic")
         .upload(fileName, profile_pic);
 
     if (storageError) throw new Error(storageError.message);
 
+    const { data: publicUrlData } = supabase
+        .storage
+        .from("profile-pic")
+        .getPublicUrl(fileName);
+
+    const profilePicUrl = publicUrlData.publicUrl;
+
     const { data, error } = await supabase.auth.signUp({
+        name,
         email,
         password,
         options: {
             data: {
                 name,
-                profile_pic: `${supabaseUrl}/storage/v1/object/sign/profile_pic/${fileName}`,
+                profile_pic: profilePicUrl,
             },
         },
     });
 
     if (error) throw new Error(error.message);
 
-    return data;
-}
-
+    return data;}
 export async function getCurrentUser() {
     const { data: session, error } = await supabase.auth.getSession();
     if (!session.session) return null;

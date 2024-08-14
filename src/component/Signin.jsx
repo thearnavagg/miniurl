@@ -2,17 +2,19 @@ import { Button } from "@/component/ui/button";
 import { Card, CardContent } from "@/component/ui/card";
 import { Input } from "@/component/ui/input";
 import { Label } from "@/component/ui/label";
-import { login } from "@/db/apiAuth";
+import { signin } from "@/db/apiAuth";
 import useFetch from "@/hooks/use-fetch";
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 import * as Yup from "yup";
 import Error from "./error";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { UrlState } from "@/context/UrlContext";
 
 const Signin = () => {
   let [searchParams] = useSearchParams();
   const longLink = searchParams.get("createNew");
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -28,8 +30,8 @@ const Signin = () => {
     }));
   };
 
-  const { loading, error, fn: fnLogin, data } = useFetch(login, formData);
-  const {fetchUser}=useState();
+  const { loading, error, fn: fnSignin, data } = useFetch(signin, formData);
+  const {fetchUser} = UrlState();
 
   useEffect(() => {
     if (error === null && data) {
@@ -50,7 +52,7 @@ const Signin = () => {
           .required("Password is Required"),
       });
       await schema.validate(formData, { abortEarly: false });
-      await fnLogin();
+      await fnSignin();
     } catch (error) {
       const newErrors = {};
       error?.inner?.forEach((err) => {
