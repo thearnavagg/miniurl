@@ -1,17 +1,23 @@
-import Navbar from "@/component/Navbar";
 import { Button } from "@/component/ui/button";
 import { Input } from "@/component/ui/input";
 import { Textarea } from "@/component/ui/textarea";
-import { Link } from "react-router-dom";
-import contactImage from "../assets/ContactUs.jpg";
-import animation from "../assets/animation.json";
+import { NavbarContext } from "@/context/NavbarContext";
 import Lottie from "lottie-web";
 import { useContext, useEffect, useRef, useState } from "react";
-import { NavbarContext } from "@/component/NavbarContext";
+import { useNavigate } from "react-router-dom";
+import contactImage from "../assets/ContactUs.jpg";
+import animation from "../assets/animation.json";
+
 const LandingPage = () => {
   const animationContainer = useRef(null);
   const { setLinks } = useContext(NavbarContext);
-  const [longUrl,setLongUrl]=useState();
+  const [longUrl, setLongUrl] = useState();
+  const navigate = useNavigate();
+  const handleShorten = (e) => {
+    e.preventDefault();
+    if (longUrl) navigate(`/auth?createNew=${longUrl}`);
+  };
+
   useEffect(() => {
     const anim = Lottie.loadAnimation({
       container: animationContainer.current,
@@ -29,26 +35,30 @@ const LandingPage = () => {
 
     return () => {
       anim.destroy();
+      setLinks([]);
     };
   }, [setLinks]);
   return (
     <div className="flex flex-col">
       <main className="flex-1">
-        <section className="bg-muted py-24 md:py-16 lg:py-32 pt-16">
+        <section className="flex min-h-screen items-center justify-center bg-muted py-32 md:py-16 lg:py-32">
           <div className="container grid gap-8 px-4 md:grid-cols-2 md:gap-12 md:px-6">
-            <div className="flex flex-col items-start justify-center space-y-4">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+            <div className="flex flex-col items-start justify-center space-y-6">
+              <h1 className="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl lg:text-6xl">
                 Shorten your links, expand your reach.
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground text-xl">
                 LynQr makes it easy to create custom short links with QR that
                 you can share anywhere.
               </p>
-              <form className="flex flex-col gap-2 min-[400px]:flex-row">
+              <form
+                onSubmit={handleShorten}
+                className="flex flex-col gap-2 min-[400px]:flex-row"
+              >
                 <Input
                   type="url"
                   value={longUrl}
-                  onClick={(e)=>setLongUrl(e.targetValue.value)}
+                  onChange={(e) => setLongUrl(e.target.value)}
                   placeholder="Enter a URL to shorten"
                   className="flex-1"
                 />
@@ -58,16 +68,19 @@ const LandingPage = () => {
             <div ref={animationContainer}></div>
           </div>
         </section>
-        <section id="features" className="py-12 md:py-24 lg:py-32">
+        <section
+          id="features"
+          className="flex min-h-screen items-center justify-center py-12 md:py-24 lg:py-32"
+        >
           <div className="container grid gap-8 px-4 md:grid-cols-2 md:gap-12 md:px-6">
             <div className="flex flex-col items-start justify-center space-y-4">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
                 Key Features
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              <h2 className="text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Powerful features to boost your online presence.
               </h2>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground text-xl">
                 LynQr offers a range of features to help you create, manage, and
                 track your shortened links.
               </p>
@@ -133,22 +146,7 @@ const LandingPage = () => {
           <p className="text-muted-foreground">
             &copy; 2024 URL Shortener. All rights reserved.
           </p>
-          <nav className="flex items-center gap-4">
-            <Link
-              href="#"
-              className="text-muted-foreground hover:underline underline-offset-4"
-              prefetch={false}
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:underline underline-offset-4"
-              prefetch={false}
-            >
-              Terms of Service
-            </Link>
-          </nav>
+          <nav className="flex items-center gap-4">Made with ❤️</nav>
         </div>
       </footer>
     </div>
