@@ -6,7 +6,7 @@ const UserAvatar = ({ user }) => {
 
   return (
     <Avatar>
-      <AvatarImage src={user?.user_metadata?.profile_pic} />
+      <AvatarImage src={user?.user_metadata?.profile_pic} className="object-contain"/>
       <AvatarFallback className="bg-[#88ff33]">{firstLetter}</AvatarFallback>
     </Avatar>
   );

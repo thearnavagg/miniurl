@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect } from "react";
 import { getCurrentUser } from "@/db/apiAuth";
 import useFetch from "@/hooks/use-fetch";
+import { createContext, useContext, useEffect } from "react";
 
 const UrlContext = createContext();
 

@@ -11,7 +11,9 @@ function ProtectedRouter({children}){
         if(!isAuthenticated && loading == false) navigate("/auth");
     },[isAuthenticated,loading]);
 
-    if(loading) return <BarLoader width={"100%"}/>;
+    if(loading) return (
+    <BarLoader className="mb-4" width={"100%"} color="#2f22f2"/>
+    );
 
     if (isAuthenticated) return children;
 }
