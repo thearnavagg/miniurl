@@ -1,11 +1,11 @@
 import supabase from "./supabase";
 
-export async function getClicks(url_id) {
-    const { data, error } = await supabase.from("urls").select("*").in("url_id", url_id);
+export async function getClicksForAllUrls(urlIds) {
+    const { data, error } = await supabase.from("clicks").select("*").in("url_id", urlIds);
 
     if (error) {
         console.log(error.message);
-        throw new Error("Unable to load Clicks");
+        return null;
     }
 
     return data;

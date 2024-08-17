@@ -30,7 +30,7 @@ const Navbar = () => {
   return (
     <>
       <header className="bg-background fixed top-0 left-0 w-full z-50 border-b">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        <div className="flex h-16 items-center justify-between px-4 md:px-6">
           <Link to="/" className="flex items-center gap-2" prefetch={false}>
             <LinkIcon className="h-6 w-6" />
             <span className="text-lg font-semibold">LynQr</span>
@@ -61,7 +61,7 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage
                       src={user?.user_metadata?.profile_pic}
-                      className="object-contain"
+                      className="object-cover"
                     />
                     <AvatarFallback className="bg-[#88ff33]">
                       {firstLetter}
@@ -74,8 +74,10 @@ const Navbar = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <LinkIcon className="mr-2 h-4 w-4" />
-                    My Links
+                    <Link className="flex" to="/dashboard">
+                      <LinkIcon className="mr-2 h-4 w-4" />
+                      My Links
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-rose-500 hover:bg-rose-50 transition ease-in-out duration-300 "
@@ -127,9 +129,7 @@ const Navbar = () => {
           </div>
         </div>
       </header>
-      {loading && (
-        <BarLoader className="mb-4" width={"100%"} color="#2f22f2"/>
-      )}
+      {loading && <BarLoader className="mb-4" width={"100%"} color="#2f22f2" />}
     </>
   );
 };

@@ -11,7 +11,7 @@ import animation from "../assets/animation.json";
 const LandingPage = () => {
   const animationContainer = useRef(null);
   const { setLinks } = useContext(NavbarContext);
-  const [longUrl, setLongUrl] = useState();
+  const [longUrl, setLongUrl] = useState("");
   const navigate = useNavigate();
   const handleShorten = (e) => {
     e.preventDefault();
@@ -62,7 +62,12 @@ const LandingPage = () => {
                   placeholder="Enter a URL to shorten"
                   className="flex-1"
                 />
-                <Button type="submit">Shorten URL</Button>
+                <Button
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  type="submit"
+                >
+                  Shorten URL
+                </Button>
               </form>
             </div>
             <div ref={animationContainer}></div>
