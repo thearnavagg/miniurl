@@ -23,7 +23,7 @@ const CreateLink = () => {
   const { user } = UrlState();
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
-  const longLink = searchParams.get("createNow");
+  const longLink = searchParams.get("createNew");
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     title: "",
