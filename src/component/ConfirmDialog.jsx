@@ -8,7 +8,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/component/ui/alert-dialog";
 
 
@@ -24,8 +23,8 @@ const ConfirmDialog = ({ isOpen, onOpenChange, onConfirm, description }) => {
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-center text-2xl font-semibold">Heads up!</AlertDialogTitle>
+          <AlertDialogDescription className="text-black">
             {description || "This action cannot be undone."}
           </AlertDialogDescription>
         </AlertDialogHeader>

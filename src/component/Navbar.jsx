@@ -14,7 +14,6 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavLink from "./NavLink";
 import { UrlState } from "@/context/UrlContext";
-import UserAvatar from "./UserAvatar";
 import useFetch from "@/hooks/use-fetch";
 import { signout } from "@/db/apiAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";

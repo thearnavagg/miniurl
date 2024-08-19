@@ -23,7 +23,7 @@ const CreateLink = () => {
   const { user } = UrlState();
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
-  const longLink = searchParams.get("createNow");
+  const longLink = searchParams.get("createNew");
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     title: "",
@@ -68,8 +68,12 @@ const CreateLink = () => {
       await schema.validate(formValues, { abortEarly: false });
       const short_url = Math.random().toString(36).substring(2, 8);
       const url = formValues.customUrl ? formValues.customUrl : short_url;
+      const options = {
+        width: 500,
+        height: 500,
+      };
       const qrCode_base64 = await QRCode.toDataURL(
-        `${import.meta.env.VITE_URL_LINK}${url}`
+        `${import.meta.env.VITE_URL_LINK}${url}`,options
       );
       const base64Data = qrCode_base64.split(",")[1];
       const blob = base64ToBlob(base64Data, "image/png");
