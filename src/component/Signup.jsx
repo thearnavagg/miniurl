@@ -70,7 +70,9 @@ const Signup = () => {
         {error && <Error message={error.message} />}
         <form className="space-y-4" onSubmit={handleSignup}>
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">
+              Name <span className="text-red-500">*</span>
+            </Label>
             <Input
               id="name"
               name="name"
@@ -79,13 +81,15 @@ const Signup = () => {
               required
               className="mt-1 block w-full"
               placeholder="Arnav Aggarwal"
-              value={formData.name} 
+              value={formData.name}
               onChange={handleInputChange}
             />
             {errors.name && <Error message={errors.name} />}
           </div>
           <div>
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email">
+              Email address <span className="text-red-500">*</span>
+            </Label>
             <Input
               id="email"
               name="email"
@@ -100,7 +104,9 @@ const Signup = () => {
             {errors.email && <Error message={errors.email} />}
           </div>
           <div>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">
+              Password <span className="text-red-500">*</span>
+            </Label>
             <Input
               id="password"
               name="password"
@@ -114,7 +120,9 @@ const Signup = () => {
             {errors.password && <Error message={errors.password} />}
           </div>
           <div>
-            <Label htmlFor="profile-photo">Profile Photo</Label>
+            <Label htmlFor="profile-photo">
+              Profile Photo <span className="text-gray-500">(optional)</span>
+            </Label>
             <Input
               id="profile-photo"
               name="profile_pic"
