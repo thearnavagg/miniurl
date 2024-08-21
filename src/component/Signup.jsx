@@ -9,6 +9,7 @@ import { Label } from "@/component/ui/label";
 import Error from "./error";
 import { PacmanLoader } from "react-spinners";
 import useFetch from "@/hooks/use-fetch";
+import { UrlState } from "@/context/UrlContext";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -32,11 +33,13 @@ const Signup = () => {
   };
 
   const { loading, error, fn: fnSignup, data } = useFetch(signup, formData);
+  const { fetchUser } = UrlState();
 
   useEffect(() => {
     if (error === null && data) {
       setErrors({});
       navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+      fetchUser();
     }
   }, [error, data]);
 

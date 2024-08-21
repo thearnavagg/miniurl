@@ -1,4 +1,6 @@
 import supabase, { supabaseUrl } from "./supabase";
+import imageCompression from 'browser-image-compression';
+
 export async function signin({ email, password }) {
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -9,21 +11,16 @@ export async function signin({ email, password }) {
 
     return data
 };
-
-import imageCompression from 'browser-image-compression';
-
 export async function signup({ name, email, password, profile_pic }) {
     try {
-        // Check the size of the image
-        const imageSizeMB = profile_pic.size / 1024 / 1024; // Convert size to MB
+        const imageSizeMB = profile_pic.size / 1024 / 1024;
 
         let compressedProfilePic = profile_pic;
 
         if (imageSizeMB > 1) {
-            // Compress the image only if it's larger than 1MB
             compressedProfilePic = await imageCompression(profile_pic, {
-                maxSizeMB: 1, // Limit the size to 1MB
-                maxWidthOrHeight: 800, // Optional: resize the image
+                maxSizeMB: 1,
+                maxWidthOrHeight: 800,
                 useWebWorker: true,
             });
         }

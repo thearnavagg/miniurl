@@ -32,7 +32,6 @@ const CreateLink = () => {
     customUrl: "",
   });
 
-  // Add this effect to update longUrl if longLink is found
   useEffect(() => {
     if (longLink) {
       setFormValues((prevValues) => ({
