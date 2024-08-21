@@ -86,9 +86,9 @@ const Link = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-8 grid-flow-row-dense pt-24 px-20">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-8 grid-flow-row-dense pt-24 px-10 md:px-20">
       <div className="md:col-span-1 md:row-span-3">
-        <div className="flex flex-col border p-4 bg-gray-50 rounded-lg md:fixed">
+        <div className="flex flex-col border p-4 bg-gray-50 dark:bg-gray-800 rounded-lg md:fixed">
           <img
             src={url?.qr}
             alt="qr-code"
@@ -103,8 +103,9 @@ const Link = () => {
               target="_blank"
               className="text-lg md:text-2xl text-blue-500 font-bold hover:underline cursor-pointer break-all"
             >
-              {import.meta.env.VITE_URL_LINK}
-              {link}
+              {`${import.meta.env.VITE_URL_LINK}${link}`.length > 35
+                ? `${import.meta.env.VITE_URL_LINK}${link}`.slice(0, 35) + "..."
+                : `${import.meta.env.VITE_URL_LINK}${link}`}
             </a>
             <a
               href={url?.original_url}
@@ -112,7 +113,9 @@ const Link = () => {
               className="flex items-center justify-center gap-1 font-semibold hover:underline cursor-pointer break-all"
             >
               <LinkIcon className="p-1" />
-              {url?.original_url}
+              {url?.original_url.length > 50
+                ? `${url?.original_url.slice(0, 50)}` + "..."
+                : `${url?.original_url}`}
             </a>
             <span className="flex items-center justify-center font-extralight text-sm mt-2">
               {new Date(url?.created_at).toLocaleString()}

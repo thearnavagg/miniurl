@@ -56,7 +56,7 @@ export function StatsDeviceCount({ stats }) {
       total.desktop + total.mobile + total.tablet + total.other;
 
     return (
-      <Card className="flex flex-col bg-gray-50">
+      <Card className="flex flex-col bg-gray-50 dark:bg-gray-800">
         <CardHeader className="items-center pb-5">
           <CardTitle>Device Click Insights</CardTitle>
           <CardDescription>

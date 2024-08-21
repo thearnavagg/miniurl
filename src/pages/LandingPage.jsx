@@ -19,6 +19,14 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
+    const linkData = [
+      { href: "#features", label: "Features" },
+      { href: "#contact", label: "Contact" },
+    ];
+    setLinks(linkData);
+  }, [setLinks]);
+
+  useEffect(() => {
     const anim = Lottie.loadAnimation({
       container: animationContainer.current,
       renderer: "svg",
@@ -28,6 +36,7 @@ const LandingPage = () => {
     });
 
     const linkData = [
+      { href: "#top", label: "Short Your Url" },
       { href: "#features", label: "Features" },
       { href: "#contact", label: "Contact" },
     ];
@@ -40,7 +49,7 @@ const LandingPage = () => {
   }, [setLinks]);
   return (
     <div className="flex flex-col">
-      <main className="flex-1">
+      <main id="top" className="flex-1">
         <section className="flex min-h-screen items-center justify-center bg-muted py-32 md:py-16 lg:py-32">
           <div className="container grid gap-8 px-4 md:grid-cols-2 md:gap-12 md:px-6">
             <div className="flex flex-col items-start justify-center space-y-6">
@@ -118,7 +127,7 @@ const LandingPage = () => {
         <section id="contact" className="bg-muted py-12 md:py-24 lg:py-32">
           <div className="container grid gap-8 px-4 md:grid-cols-2 md:gap-12 md:px-6">
             <div className="flex flex-col items-start justify-center space-y-4">
-              <div className="inline-block rounded-lg px-3 py-1 text-sm bg-white">
+              <div className="inline-block rounded-lg px-3 py-1 text-sm bg-white dark:text-black">
                 Contact Us
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">

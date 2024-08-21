@@ -1,13 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-const NavLink = ({ href, children }) => (
-  <Link
-    to={href}
-    className="text-sm font-medium hover:underline underline-offset-4"
-  >
-    {children}
-  </Link>
-);
+const NavLink = ({ href, children }) => {
+  const handleScroll = (e) => {
+    e.preventDefault(); 
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  return (
+    <a
+      href={href}
+      onClick={handleScroll}
+      className="text-sm font-medium hover:underline underline-offset-4"
+    >
+      {children}
+    </a>
+  );
+};
 
 export default NavLink;
