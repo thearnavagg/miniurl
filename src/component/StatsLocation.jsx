@@ -1,43 +1,35 @@
-"use client"
-
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/component/ui/card"
+} from "@/component/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/component/ui/chart"
+} from "@/component/ui/chart";
 
-export function StatsLocation({stats}) {
+export function StatsLocation({ stats }) {
   if (stats && stats.length > 0) {
     console.log("Stats Data:", stats);
 
-    
     const cityDeviceCounts = {};
 
-    
-    stats.forEach(item => {
-      
+    stats.forEach((item) => {
       if (!cityDeviceCounts[item.city]) {
         cityDeviceCounts[item.city] = {
           country: item.country,
           desktop: 0,
           mobile: 0,
           tablet: 0,
-          other: 0
+          other: 0,
         };
       }
 
-      
       if (item.device === "desktop") {
         cityDeviceCounts[item.city].desktop += 1;
       } else if (item.device === "mobile") {
@@ -49,17 +41,15 @@ export function StatsLocation({stats}) {
       }
     });
 
-    
-    const chartData = Object.keys(cityDeviceCounts).map(city => ({
+    const chartData = Object.keys(cityDeviceCounts).map((city) => ({
       city,
       country: cityDeviceCounts[city].country,
       desktop: cityDeviceCounts[city].desktop,
       mobile: cityDeviceCounts[city].mobile,
       tablet: cityDeviceCounts[city].tablet,
-      other: cityDeviceCounts[city].other
+      other: cityDeviceCounts[city].other,
     }));
 
-    
     console.log("City Device Counts Array:", chartData);
 
     const chartConfig = {
@@ -79,10 +69,10 @@ export function StatsLocation({stats}) {
         label: "Other",
         color: "hsl(var(--chart-4))",
       },
-    }
+    };
 
     return (
-      <Card className="flex flex-col bg-gray-50">
+      <Card className="flex flex-col bg-gray-50 dark:bg-gray-800">
         <CardHeader className="items-center pb-5">
           <CardTitle>City Device Click Map</CardTitle>
           <CardDescription>
@@ -92,7 +82,12 @@ export function StatsLocation({stats}) {
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid
+                vertical={false}
+                dark:stroke="#4a4a4a"
+                stroke="#e0e0e0"
+                strokeOpacity={0.4}
+              />
               <XAxis
                 dataKey="city"
                 tickLine={false}
@@ -107,7 +102,7 @@ export function StatsLocation({stats}) {
               />
               <ChartTooltip
                 cursor={false}
-                content={<ChartTooltipContent indicator="dashed" />}
+                content={<ChartTooltipContent indicator="dot" />}
               />
               <Bar
                 dataKey="desktop"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,14 +25,22 @@ const CreateLink = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const longLink = searchParams.get("createNew");
   const [errors, setErrors] = useState({});
+
   const [formValues, setFormValues] = useState({
     title: "",
     longUrl: longLink ? longLink : "",
     customUrl: "",
   });
 
-  // const [generatedShortUrl, setGeneratedShortUrl] = useState(null);
-  // const ref = useRef();
+  // Add this effect to update longUrl if longLink is found
+  useEffect(() => {
+    if (longLink) {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        longUrl: longLink,
+      }));
+    }
+  }, [longLink]);
 
   const schema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -73,20 +81,17 @@ const CreateLink = () => {
         height: 500,
       };
       const qrCode_base64 = await QRCode.toDataURL(
-        `${import.meta.env.VITE_URL_LINK}${url}`,options
+        `${import.meta.env.VITE_URL_LINK}${url}`,
+        options
       );
       const base64Data = qrCode_base64.split(",")[1];
       const blob = base64ToBlob(base64Data, "image/png");
-      // console.log("Form Values: ", formValues);
-      // console.log({ short_url, blob });
       await fnCreateUrl(short_url, blob);
     } catch (e) {
       const newErrors = {};
-
       e?.inner?.forEach((err) => {
         newErrors[err.path] = err.message;
       });
-
       setErrors(newErrors);
     }
   };
@@ -105,16 +110,6 @@ const CreateLink = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md p-6 bg-white rounded-lg shadow-lg">
         <DialogHeader>
-          {/* {generatedShortUrl && (
-            <QRCode
-              ref={ref}
-              size={250}
-              value={
-                `${import.meta.env.VITE_URL_LINK}/${formValues.customUrl}` ||
-                `${import.meta.env.VITE_URL_LINK}/${generatedShortUrl}`
-              }
-            />
-          )} */}
           <DialogTitle className="font-bold text-2xl text-gray-800">
             Create New Link
           </DialogTitle>
@@ -124,7 +119,7 @@ const CreateLink = () => {
           <Input
             id="title"
             placeholder="Short Link's Title"
-            onValue={formValues.title}
+            value={formValues.title}
             onChange={handleChange}
             className="w-full px-4 py-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           />
@@ -132,7 +127,7 @@ const CreateLink = () => {
           <Input
             id="longUrl"
             placeholder="Enter your long URL"
-            onValue={formValues.longUrl}
+            value={formValues.longUrl}
             onChange={handleChange}
             className="w-full px-4 py-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           />
@@ -144,7 +139,7 @@ const CreateLink = () => {
             <Input
               id="customUrl"
               placeholder="Custom Link (optional)"
-              onValue={formValues.customUrl}
+              value={formValues.customUrl}
               onChange={handleChange}
               className="flex-1 px-4 py-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
             />

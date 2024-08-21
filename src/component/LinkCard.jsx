@@ -38,7 +38,7 @@ const LinkCard = ({ url, fetchUrls }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 border p-4 bg-gray-100 rounded-lg">
+    <div className="flex flex-col md:flex-row gap-4 border p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
       <img
         src={url?.qr}
         alt="qr-code"

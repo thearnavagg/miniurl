@@ -4,7 +4,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/component/ui/popover";
-import { Sheet, SheetContent, SheetTrigger } from "@/component/ui/sheet";
 import { NavbarContext } from "@/context/NavbarContext";
 import { LinkIcon, LogOut, MenuIcon } from "lucide-react";
 import { useContext } from "react";
@@ -15,6 +14,7 @@ import useFetch from "@/hooks/use-fetch";
 import { signout } from "@/db/apiAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { BarLoader } from "react-spinners";
+import DarkModeToggle from "./toggle";
 
 const Navbar = () => {
   const { links } = useContext(NavbarContext);
@@ -44,6 +44,7 @@ const Navbar = () => {
           )}
 
           <div className="flex items-center gap-2">
+            <DarkModeToggle />
             {!user ? (
               <Button
                 onClick={() => navigate("/auth")}
@@ -65,14 +66,14 @@ const Navbar = () => {
                     </AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
-                <PopoverContent className="max-w-[10rem] p-3 mr-2 bg-white rounded-md shadow-lg border border-gray-200">
+                <PopoverContent className="max-w-[10rem] p-3 mr-2 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700">
                   <div className="flex flex-col space-y-1.5">
-                    <div className="text-sm font-semibold text-gray-800">
+                    <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                       {user?.user_metadata?.name}
                     </div>
                     <div className="py-1">
                       <Link
-                        className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 hover:bg-gray-100 p-1.5 rounded-md transition duration-150 ease-in-out"
+                        className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 rounded-md transition duration-150 ease-in-out"
                         to="/dashboard"
                       >
                         <LinkIcon className="h-4 w-4" />
@@ -80,7 +81,7 @@ const Navbar = () => {
                       </Link>
                     </div>
                     <div
-                      className="flex items-center space-x-1 text-rose-600 cursor-pointer hover:text-rose-800 hover:bg-rose-50 p-1.5 rounded-md transition duration-150 ease-in-out"
+                      className="flex items-center space-x-1 text-rose-600 cursor-pointer hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-900 p-1.5 rounded-md transition duration-150 ease-in-out"
                       onClick={() => {
                         fnSignout().then(() => {
                           fetchUser();
@@ -94,38 +95,6 @@ const Navbar = () => {
                   </div>
                 </PopoverContent>
               </Popover>
-            )}
-
-            {links.length > 0 && (
-              <div className="lg:hidden">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <MenuIcon className="h-6 w-6" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="right" className="w-full max-w-xs">
-                    <div className="flex flex-col items-start gap-6 p-6">
-                      <Link
-                        to="/"
-                        className="flex items-center gap-2"
-                        prefetch={false}
-                      >
-                        <LinkIcon className="h-6 w-6" />
-                        <span className="text-lg font-semibold">LynQr</span>
-                      </Link>
-                      <nav className="grid gap-4">
-                        {links.map((link) => (
-                          <NavLink key={link.label} href={link.href}>
-                            {link.label}
-                          </NavLink>
-                        ))}
-                      </nav>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
             )}
           </div>
         </div>
