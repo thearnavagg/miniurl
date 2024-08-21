@@ -13,9 +13,28 @@ const LandingPage = () => {
   const { setLinks } = useContext(NavbarContext);
   const [longUrl, setLongUrl] = useState("");
   const navigate = useNavigate();
+
   const handleShorten = (e) => {
     e.preventDefault();
-    if (longUrl) navigate(`/auth?createNew=${longUrl}`);
+
+    let formattedUrl = longUrl.trim();
+
+    const urlPattern = /^(https?:\/\/)/;
+
+    if (!urlPattern.test(formattedUrl)) {
+      formattedUrl = "https://" + formattedUrl;
+    }
+
+    const validUrl =
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\S*)?$/.test(
+        formattedUrl
+      );
+
+    if (validUrl) {
+      navigate(`/auth?createNew=${formattedUrl}`);
+    } else {
+      alert("Please enter a valid URL.");
+    }
   };
 
   useEffect(() => {
@@ -47,6 +66,7 @@ const LandingPage = () => {
       setLinks([]);
     };
   }, [setLinks]);
+
   return (
     <div className="flex flex-col">
       <main id="top" className="flex-1">
@@ -65,7 +85,7 @@ const LandingPage = () => {
                 className="flex flex-col gap-2 min-[400px]:flex-row"
               >
                 <Input
-                  type="url"
+                  type="text"
                   value={longUrl}
                   onChange={(e) => setLongUrl(e.target.value)}
                   placeholder="Enter a URL to shorten"
