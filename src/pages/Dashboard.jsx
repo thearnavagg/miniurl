@@ -1,7 +1,6 @@
 import CreateLink from "@/component/CreateLink";
 import Error from "@/component/error";
 import LinkCard from "@/component/LinkCard";
-import { Button } from "@/component/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/component/ui/card";
 import { Input } from "@/component/ui/input";
 import { UrlState } from "@/context/UrlContext";
@@ -71,7 +70,7 @@ const Dashboard = () => {
       </div>
       <div className="flex justify-between">
         <h1 className="text-3xl font-extrabold">My Links</h1>
-        <CreateLink/>
+        <CreateLink />
       </div>
       <div className="relative">
         <Input
@@ -83,9 +82,9 @@ const Dashboard = () => {
         <Filter className="absolute top-2 right-2 p-1"></Filter>
       </div>
       {error && <Error message={error?.message} />}
-      {(filteredUrls || []).map((url, i) => {
-        return <LinkCard key={i} url={url} fetchUrls={fnUrls} />;
-      })}
+      {(filteredUrls || []).slice().reverse().map((url, i) => {
+          return <LinkCard key={i} url={url} fetchUrls={fnUrls} />;
+        })}
     </div>
   );
 };
