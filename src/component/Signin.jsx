@@ -2,14 +2,14 @@ import { Button } from "@/component/ui/button";
 import { Card, CardContent } from "@/component/ui/card";
 import { Input } from "@/component/ui/input";
 import { Label } from "@/component/ui/label";
+import { UrlState } from "@/context/UrlContext";
 import { signin } from "@/db/apiAuth";
 import useFetch from "@/hooks/use-fetch";
 import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import * as Yup from "yup";
 import Error from "./error";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { UrlState } from "@/context/UrlContext";
 
 const Signin = () => {
   let [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ const Signin = () => {
   };
 
   const { loading, error, fn: fnSignin, data } = useFetch(signin, formData);
-  const {fetchUser} = UrlState();
+  const { fetchUser } = UrlState();
 
   useEffect(() => {
     if (error === null && data) {
@@ -96,7 +96,11 @@ const Signin = () => {
             />
             {errors.password && <Error message={errors.password} />}
           </div>
-          <Button onClick={handleSignin} type="submit" className="w-full">
+          <Button
+            className="bg-indigo-600 hover:bg-indigo-700 text-white w-full"
+            onClick={handleSignin}
+            type="submit"
+          >
             {loading ? (
               <PacmanLoader color="#ffffff" size={12} loading />
             ) : (

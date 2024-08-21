@@ -135,7 +135,10 @@ const Signup = () => {
               onChange={handleInputChange}
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white w-full"
+          >
             {loading ? (
               <PacmanLoader color="#ffffff" size={12} loading />
             ) : (

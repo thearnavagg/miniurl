@@ -61,7 +61,7 @@ const Navbar = () => {
                       src={user?.user_metadata?.profile_pic}
                       className="object-cover"
                     />
-                    <AvatarFallback className="bg-[#88ff33]">
+                    <AvatarFallback className="bg-indigo-300 text-black">
                       {firstLetter}
                     </AvatarFallback>
                   </Avatar>
