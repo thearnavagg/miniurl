@@ -1,12 +1,9 @@
 import { Button } from "@/component/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/component/ui/dropdown-menu";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/component/ui/popover";
 import { Sheet, SheetContent, SheetTrigger } from "@/component/ui/sheet";
 import { NavbarContext } from "@/context/NavbarContext";
 import { LinkIcon, LogOut, MenuIcon } from "lucide-react";
@@ -26,6 +23,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const userName = user?.user_metadata?.name || "CN";
   const firstLetter = userName.charAt(0).toUpperCase();
+
   return (
     <>
       <header className="bg-background fixed top-0 left-0 w-full z-50 border-b">
@@ -55,8 +53,8 @@ const Navbar = () => {
                 Login
               </Button>
             ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger>
+              <Popover>
+                <PopoverTrigger>
                   <Avatar>
                     <AvatarImage
                       src={user?.user_metadata?.profile_pic}
@@ -66,32 +64,36 @@ const Navbar = () => {
                       {firstLetter}
                     </AvatarFallback>
                   </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-[12rem] overflow-y-hidden">
-                  <DropdownMenuLabel>
-                    {user?.user_metadata?.name}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link className="flex" to="/dashboard">
-                      <LinkIcon className="mr-2 h-4 w-4" />
-                      My Links
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-rose-500 hover:bg-rose-50 transition ease-in-out duration-300 "
-                    onClick={() => {
-                      fnSignout().then(() => {
-                        fetchUser();
-                        navigate("/");
-                      });
-                    }}
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Logout</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </PopoverTrigger>
+                <PopoverContent className="max-w-[10rem] p-3 mr-2 bg-white rounded-md shadow-lg border border-gray-200">
+                  <div className="flex flex-col space-y-1.5">
+                    <div className="text-sm font-semibold text-gray-800">
+                      {user?.user_metadata?.name}
+                    </div>
+                    <div className="py-1">
+                      <Link
+                        className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 hover:bg-gray-100 p-1.5 rounded-md transition duration-150 ease-in-out"
+                        to="/dashboard"
+                      >
+                        <LinkIcon className="h-4 w-4" />
+                        <span className="text-sm">My Links</span>
+                      </Link>
+                    </div>
+                    <div
+                      className="flex items-center space-x-1 text-rose-600 cursor-pointer hover:text-rose-800 hover:bg-rose-50 p-1.5 rounded-md transition duration-150 ease-in-out"
+                      onClick={() => {
+                        fnSignout().then(() => {
+                          fetchUser();
+                          navigate("/");
+                        });
+                      }}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span className="text-sm">Logout</span>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
             )}
 
             {links.length > 0 && (

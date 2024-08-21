@@ -27,14 +27,21 @@ const RedirectLink = () => {
 
   if (loading || loadingStats) {
     return (
-      <>
-        <BarLoader width={"100%"} color="#36d7b7" />
-        <br />
-        Redirecting...
-      </>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="mb-6">
+            <BarLoader width={"100%"} color="#36d7b7" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-700">
+            {"(👉ﾟヮﾟ)👉 Redirecting... 👈(ﾟヮﾟ👈)"}
+          </h2>
+          <p className="text-sm text-gray-900 mt-2">
+            Please wait while we take you to your destination.
+          </p>
+        </div>
+      </div>
     );
   }
-
   return null;
 };
 
