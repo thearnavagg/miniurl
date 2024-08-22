@@ -48,7 +48,7 @@ function App() {
   return (
     <UrlProvider>
       <NavbarProvider>
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />
       </NavbarProvider>
     </UrlProvider>
   );
