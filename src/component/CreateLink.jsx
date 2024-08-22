@@ -107,9 +107,9 @@ const CreateLink = () => {
           Create New Link
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md p-6 bg-white rounded-lg shadow-lg">
+      <DialogContent className="sm:max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
         <DialogHeader>
-          <DialogTitle className="font-bold text-2xl text-gray-800">
+          <DialogTitle className="font-bold text-2xl text-center text-gray-800 dark:text-white">
             Create New Link
           </DialogTitle>
         </DialogHeader>

@@ -21,15 +21,17 @@ const ConfirmDialog = ({ isOpen, onOpenChange, onConfirm, description }) => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-gray-100 dark:bg-gray-800">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center text-2xl font-semibold">Heads up!</AlertDialogTitle>
-          <AlertDialogDescription className="text-black">
+          <AlertDialogTitle className="text-center text-2xl font-semibold">
+            Heads up!
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-black dark:text-white">
             {description || "This action cannot be undone."}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => onOpenChange(false)}>
+          <AlertDialogCancel className="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" onClick={() => onOpenChange(false)}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
