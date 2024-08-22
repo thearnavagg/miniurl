@@ -1,10 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { NavbarProvider } from "./context/NavbarContext";
 import AppLayout from "./layout/app-layout";
+import Auth from "./pages/Auth";
 import LandingPage from "./pages/LandingPage";
 import Link from "./pages/Link";
 import RedirectLink from "./pages/RedirectLink";
-import Auth from "./pages/Auth";
-import { NavbarProvider } from "./component/NavbarContext";
+import UrlProvider from "./context/UrlContext";
+import ProtectedRouter from "./component/ProtectedRouter";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +22,19 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
+        path: "/dashboard",
+        element:
+        <ProtectedRouter>
+          <Dashboard/>
+        </ProtectedRouter>
+      },
+      {
         path: "/link/:id",
-        element: <Link />,
+        element: (
+          <ProtectedRouter>
+            <Link />
+          </ProtectedRouter>
+        ),
       },
       {
         path: ":id",
@@ -32,9 +46,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <NavbarProvider>
-      <RouterProvider router={router} />
-    </NavbarProvider>
+    <UrlProvider>
+      <NavbarProvider>
+          <RouterProvider router={router} />
+      </NavbarProvider>
+    </UrlProvider>
   );
 }
 
