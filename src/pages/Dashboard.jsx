@@ -56,7 +56,7 @@ const Dashboard = () => {
             <CardTitle>Links Created</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-bold text-center">
-            <p>{urls?.length}</p>
+            <p>{urls?.length || 0}</p>
           </CardContent>
         </Card>
         <Card>
@@ -64,7 +64,7 @@ const Dashboard = () => {
             <CardTitle>Total Clicks</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-bold text-center">
-            <p>{clicks?.length}</p>
+            <p>{clicks?.length || 0}</p>
           </CardContent>
         </Card>
       </div>
@@ -82,7 +82,10 @@ const Dashboard = () => {
         <Filter className="absolute top-2 right-2 p-1"></Filter>
       </div>
       {error && <Error message={error?.message} />}
-      {(filteredUrls || []).slice().reverse().map((url, i) => {
+      {(filteredUrls || [])
+        .slice()
+        .reverse()
+        .map((url, i) => {
           return <LinkCard key={i} url={url} fetchUrls={fnUrls} />;
         })}
     </div>

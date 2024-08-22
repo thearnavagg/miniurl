@@ -5,16 +5,16 @@ import {
   PopoverTrigger,
 } from "@/component/ui/popover";
 import { NavbarContext } from "@/context/NavbarContext";
-import { LinkIcon, LogOut, MenuIcon } from "lucide-react";
+import { UrlState } from "@/context/UrlContext";
+import { signout } from "@/db/apiAuth";
+import useFetch from "@/hooks/use-fetch";
+import { LinkIcon, LogOut } from "lucide-react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavLink from "./NavLink";
-import { UrlState } from "@/context/UrlContext";
-import useFetch from "@/hooks/use-fetch";
-import { signout } from "@/db/apiAuth";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { BarLoader } from "react-spinners";
+import NavLink from "./NavLink";
 import DarkModeToggle from "./toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = () => {
   const { links } = useContext(NavbarContext);
@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between px-4 md:px-6">
           <Link to="/" className="flex items-center gap-2" prefetch={false}>
             <LinkIcon className="h-6 w-6" />
-            <span className="text-lg font-semibold">LynQr</span>
+            <span className="text-lg font-semibold">MiniUrl</span>
           </Link>
 
           {links.length > 0 && (
@@ -61,7 +61,7 @@ const Navbar = () => {
                       src={user?.user_metadata?.profile_pic}
                       className="object-cover"
                     />
-                    <AvatarFallback className="bg-[#88ff33]">
+                    <AvatarFallback className="bg-indigo-300 text-black">
                       {firstLetter}
                     </AvatarFallback>
                   </Avatar>
@@ -73,7 +73,7 @@ const Navbar = () => {
                     </div>
                     <div className="py-1">
                       <Link
-                        className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 rounded-md transition duration-150 ease-in-out"
+                        className="flex items-center space-x-1 text-gray-900 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 rounded-md transition duration-150 ease-in-out"
                         to="/dashboard"
                       >
                         <LinkIcon className="h-4 w-4" />

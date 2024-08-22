@@ -9,8 +9,10 @@ import useFetch from "@/hooks/use-fetch";
 import { Copy, Download, LinkIcon, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "@/component/ui/use-toast";
 
 const Link = () => {
+  const { toast } = useToast();
   const downloadImage = async () => {
     try {
       const imageUrl = url?.qr;
@@ -30,13 +32,22 @@ const Link = () => {
       anchor.click();
       document.body.removeChild(anchor);
       window.URL.revokeObjectURL(blobUrl);
+
+      toast({
+        description: "Image downloaded successfully!",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Failed to download image:", error);
+      toast({
+        description: "Failed to download the image.",
+        variant: "destructive",
+      });
     }
   };
   const navigate = useNavigate();
-  const {id} = useParams();
-  const {user} = UrlState();
+  const { id } = useParams();
+  const { user } = UrlState();
 
   const {
     loading,
@@ -61,12 +72,19 @@ const Link = () => {
       .then(() => {
         console.log("Deleted successfully");
         navigate("/dashboard");
+        toast({
+          description: "Link deleted successfully!",
+          variant: "success",
+        });
       })
       .catch((err) => {
         console.error("Error during deletion:", err);
+        toast({
+          description: "Failed to delete the link.",
+          variant: "destructive",
+        });
       });
   };
-
 
   useEffect(() => {
     fn();
@@ -124,11 +142,26 @@ const Link = () => {
           <div className="flex justify-center gap-2 mt-4">
             <Button
               variant="ghost"
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `${import.meta.env.VITE_URL_LINK}${link}`
-                )
-              }
+              onClick={() => {
+                const urlToCopy = `${import.meta.env.VITE_URL_LINK}${
+                  url?.custom_url ? url?.custom_url : url.short_url
+                }`;
+                navigator.clipboard
+                  .writeText(urlToCopy)
+                  .then(() => {
+                    toast({
+                      description: "Link copied to clipboard successfully!",
+                      variant: "success",
+                    });
+                  })
+                  .catch((err) => {
+                    console.error("Failed to copy text: ", err);
+                    toast({
+                      description: "Failed to copy Link",
+                      variant: "destructive",
+                    });
+                  });
+              }}
             >
               <Copy />
             </Button>

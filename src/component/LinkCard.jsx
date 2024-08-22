@@ -5,8 +5,10 @@ import useFetch from "@/hooks/use-fetch";
 import { deleteUrl } from "@/db/apiUrls";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState } from "react";
+import { useToast } from "@/component/ui/use-toast";
 
 const LinkCard = ({ url, fetchUrls }) => {
+  const { toast } = useToast();
   const downloadImage = async () => {
     try {
       const imageUrl = url?.qr;
@@ -26,14 +28,38 @@ const LinkCard = ({ url, fetchUrls }) => {
       anchor.click();
       document.body.removeChild(anchor);
       window.URL.revokeObjectURL(blobUrl);
+
+      toast({
+        description: "Image downloaded successfully!",
+        variant: "success",
+      });
+
     } catch (error) {
       console.error("Failed to download image:", error);
+      toast({
+        description: "Failed to download the image.",
+        variant: "destructive",
+      });
     }
   };
 
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
   const handleConfirm = () => {
-    fnDelete().then(() => fetchUrls());
+    fnDelete()
+      .then(() => {
+        fetchUrls();
+        toast({
+          description: "Link deleted successfully!",
+          variant: "success",
+        });
+      })
+      .catch((err) => {
+        console.error("Error during deletion:", err);
+        toast({
+          description: "Failed to delete the link.",
+          variant: "destructive",
+      });
+    });
   };
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -65,15 +91,23 @@ const LinkCard = ({ url, fetchUrls }) => {
       </Link>
       <div className="flex justify-center md:justify-start gap-2 mt-4 md:mt-0">
         <Button
-          variant="ghost"
-          onClick={() =>
-            navigator.clipboard.writeText(
-              `${import.meta.env.VITE_URL_LINK}${
-                url?.custom_url ? url?.custom_url : url.short_url
-              }`
-            )
-          }
-        >
+  variant="ghost"
+  onClick={() => {
+    const urlToCopy = `${import.meta.env.VITE_URL_LINK}${
+      url?.custom_url ? url?.custom_url : url.short_url
+    }`;
+    navigator.clipboard.writeText(urlToCopy)
+      .then(() => {
+        toast({
+          description: "Link copied to clipboard successfully!",
+          variant: "success",
+        });
+      })
+      .catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+  }}
+>
           <Copy />
         </Button>
         <Button variant="ghost" onClick={downloadImage}>
