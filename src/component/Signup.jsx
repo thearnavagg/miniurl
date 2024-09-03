@@ -32,6 +32,17 @@ const Signup = () => {
     }));
   };
 
+  const generateRandomCredentials = () => {
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const email = `guest_${randomString}@example.com`;
+    const password = randomString + Math.random().toString(36).substring(2, 4);
+    const name = randomString;
+    return { name, email, password };
+  };
+  const handleGuestSignup = async () => {
+    const { name, email, password } = generateRandomCredentials();
+    setFormData({ name, email, password });
+  };
   const { loading, error, fn: fnSignup, data } = useFetch(signup, formData);
   const { fetchUser } = UrlState();
 
@@ -73,6 +84,13 @@ const Signup = () => {
         {error && <Error message={error.message} />}
         <form className="space-y-4" onSubmit={handleSignup}>
           <div>
+            <Button
+              onClick={handleGuestSignup}
+              type="submit"
+              className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground my-3"
+            >
+              {loading ? "Generating..." : "Continue as Guest"}
+            </Button>
             <Label htmlFor="name">
               Name <span className="text-red-500">*</span>
             </Label>

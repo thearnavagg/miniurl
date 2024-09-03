@@ -46,7 +46,7 @@ const Auth = () => {
             </p>
           </div>
         )}
-        <Tabs defaultValue="signin" className="space-y-8">
+        <Tabs defaultValue="signup" className="space-y-8">
           <TabsList className="flex justify-center">
             <TabsTrigger value="signin">Sign in</TabsTrigger>
             <TabsTrigger value="signup">Sign up</TabsTrigger>

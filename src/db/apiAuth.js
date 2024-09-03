@@ -13,35 +13,37 @@ export async function signin({ email, password }) {
 };
 export async function signup({ name, email, password, profile_pic }) {
     try {
-        const imageSizeMB = profile_pic.size / 1024 / 1024;
+        let profilePicUrl = null;
 
-        let compressedProfilePic = profile_pic;
+        if (profile_pic) {
+            const imageSizeMB = profile_pic.size / 1024 / 1024;
+            let compressedProfilePic = profile_pic;
 
-        if (imageSizeMB > 1) {
-            compressedProfilePic = await imageCompression(profile_pic, {
-                maxSizeMB: 1,
-                maxWidthOrHeight: 800,
-                useWebWorker: true,
-            });
+            if (imageSizeMB > 1) {
+                compressedProfilePic = await imageCompression(profile_pic, {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 800,
+                    useWebWorker: true,
+                });
+            }
+
+            const fileName = `dp-${name.split(" ").join("-")}-${Math.random()}`;
+
+            const { error: storageError } = await supabase.storage
+                .from("profile-pic")
+                .upload(fileName, compressedProfilePic);
+
+            if (storageError) throw new Error(storageError.message);
+
+            const { data: publicUrlData } = supabase
+                .storage
+                .from("profile-pic")
+                .getPublicUrl(fileName);
+
+            profilePicUrl = publicUrlData.publicUrl;
         }
 
-        const fileName = `dp-${name.split(" ").join("-")}-${Math.random()}`;
-
-        const { error: storageError } = await supabase.storage
-            .from("profile-pic")
-            .upload(fileName, compressedProfilePic);
-
-        if (storageError) throw new Error(storageError.message);
-
-        const { data: publicUrlData } = supabase
-            .storage
-            .from("profile-pic")
-            .getPublicUrl(fileName);
-
-        const profilePicUrl = publicUrlData.publicUrl;
-
         const { data, error } = await supabase.auth.signUp({
-            name,
             email,
             password,
             options: {
@@ -53,12 +55,12 @@ export async function signup({ name, email, password, profile_pic }) {
         });
 
         if (error) throw new Error(error.message);
-
         return data;
     } catch (err) {
         throw new Error(err.message);
     }
 }
+
 export async function getCurrentUser() {
     const { data: session, error } = await supabase.auth.getSession();
     if (!session.session) return null;
